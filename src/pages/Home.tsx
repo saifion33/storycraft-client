@@ -1,7 +1,10 @@
+import StoryContainer from "../components/story/StoryContainer"
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <div className="p-4">
+      <StoryContainer />
+    </div>
   )
 }
 
