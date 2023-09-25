@@ -9,7 +9,7 @@ const StoryContainer = () => {
     const [isLoading, setIsLoading] = useState(false)
     const savedStories=['sldfj','sdfjlsdfjsoid','dk397nf9r8w89ruwo9']
     return (
-        <div className="">
+        <div className="p-4">
             <div className="flex justify-center flex-wrap gap-4 ">
                 {
                     (!isLoading && storiesList) && storiesList.map(story => <StoryCard savedStories={savedStories} story={story} key={story._id} />)

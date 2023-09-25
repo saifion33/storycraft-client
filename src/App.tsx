@@ -8,7 +8,7 @@ import SavedStory from "./pages/SavedStory";
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="bg-gradient-radial bg-fixed h-screen overflow-hidden">
+    <div className="bg-gradient-radial bg-fixed h-screen overflow-y-hidden">
       <Router>
         <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         <div className="flex">
