@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar"
 import { useState } from "react";
 import Leaderboard from "./pages/Leaderboard";
 import SavedStory from "./pages/SavedStory";
+import Signup from "./pages/Signup";
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/saved" element={<SavedStory />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/auth/signup" element={<Signup/>} />
             </Routes>
           </div>
         </div>
