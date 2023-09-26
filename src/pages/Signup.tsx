@@ -1,18 +1,29 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { ISignupForm } from '../Types'
-import { useAppSelector } from '../redux-hooks-type'
+import { useAppDispatch, useAppSelector } from '../redux-hooks-type'
 import loadingIcon from '../assets/loading-icon-white.svg'
+import { signup } from '../redux/actions/auth'
+import { useNavigate } from 'react-router-dom'
 
 
 const Signup = () => {
-    const loading=useAppSelector(state=>state.auth.loading)
+    const loading = useAppSelector(state => state.auth.loading)
+    const dispatch = useAppDispatch()
+    const navigate=useNavigate()
     const initialValues = {
         name: '',
         email: '',
         password: ''
     }
-    const handleSubmit = (values: ISignupForm) => {
-        console.log(values)
+    const handleSubmit = async (values: ISignupForm) => {
+        const response = await dispatch(signup(values))
+        if (signup.fulfilled.match(response)) {
+            alert('Signup successfully')
+            navigate('/')
+        }
+        if (signup.rejected.match(response)) {
+            alert(response.payload?.message)
+        }
     }
 
     return (

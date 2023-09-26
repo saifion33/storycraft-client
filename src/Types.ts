@@ -24,3 +24,7 @@ export interface ILoginForm{
 export interface ISignupForm extends ILoginForm{
     name:string
 }
+
+export interface IServerResponse{
+    message:string
+}
