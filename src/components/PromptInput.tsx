@@ -12,7 +12,7 @@ const PromptInput = ({closePrompt}:IProps) => {
         <AiOutlineClose className="text-xl md:hidden" onClick={closePrompt}/>
       </div>
       <div className='flex items-center gap-2'>
-        <textarea name="prompt" id="prompt" rows={2} className="w-full rounded-sm p-2"></textarea>
+        <textarea name="prompt" id="prompt" rows={2} className="w-full rounded-sm p-2 md:px-4 bg-stone-50 bg-opacity-40 focus:outline focus:outline-stone-50"></textarea>
         <IoSend className="text-5xl text-[#f12711]  opacity-70 hover:opacity-100 cursor-pointer" />
       </div>
     </div>
