@@ -7,6 +7,7 @@ import Topbar from '../components/Topbar'
 import { ISignupForm } from '../Types'
 import { string, object } from 'yup'
 import { toast } from 'react-toastify'
+import { checkNetworkAndSession } from '../utils/helpers'
 
 const validationSchema = object({
     name: string().min(3, 'Minimum 3 character is required.').required('Name is required.'),
@@ -24,7 +25,7 @@ const Signup = () => {
         email: '',
         password: ''
     }
-    const handleSubmit = async (values: ISignupForm) => {
+    const signupFunction=async(values:ISignupForm)=>{
         const response = await dispatch(signup(values))
         if (signup.fulfilled.match(response)) {
             toast.success('Signup successfully.')
@@ -33,6 +34,9 @@ const Signup = () => {
         if (signup.rejected.match(response)) {
             toast.info(response.payload?.message)
         }
+    }
+    const handleSubmit = async (values: ISignupForm) => {
+        checkNetworkAndSession('network',()=>signupFunction(values))
     }
 
     return (

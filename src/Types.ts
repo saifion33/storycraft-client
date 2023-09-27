@@ -28,3 +28,10 @@ export interface ISignupForm extends ILoginForm{
 export interface IServerResponse{
     message:string
 }
+
+export interface IJwtPayload {
+    email: string,
+    id: string,
+    iat: number,
+    exp: number,
+}

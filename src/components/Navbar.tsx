@@ -20,6 +20,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }: IProps) => {
             </div>
             <h1 onClick={()=>navigate('/')} className=' mx-auto cursor-default'>Story Craft</h1>
             {user && <button onClick={()=>dispatch(logout())} className='bg-[#f12711] bg-opacity-50 text-sm  py-1 px-2 rounded' >Logout</button>}
+            {!user && <button onClick={()=>navigate('/auth/login')} className='bg-[#f12711] sm:hidden bg-opacity-50 text-sm  py-1 px-2 rounded' >Login</button>}
         </div>
 
     )

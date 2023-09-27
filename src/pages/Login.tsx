@@ -7,6 +7,7 @@ import Topbar from "../components/Topbar"
 import { ILoginForm } from "../Types"
 import { object, string } from 'yup'
 import {toast} from 'react-toastify'
+import { checkNetworkAndSession } from "../utils/helpers"
 
 const validationSchema = object({
   email: string().email('Invalid email').required('Email is required.'),
@@ -21,7 +22,7 @@ const Login = () => {
     email: '',
     password: ''
   }
-  const handleSubmit = async (values: ILoginForm) => {
+  const loginFunction=async (values: ILoginForm) => {
     const response = await dispatch(login(values))
     if (login.fulfilled.match(response)) {
       toast.success('Login successfully.')
@@ -30,6 +31,10 @@ const Login = () => {
     if (login.rejected.match(response)) {
       toast.info(response.payload?.message)
     }
+  }
+
+  const handleSubmit = async (values: ILoginForm) => {
+   checkNetworkAndSession('network',()=>loginFunction(values))
   }
 
   return (

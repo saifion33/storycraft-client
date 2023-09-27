@@ -4,7 +4,7 @@ import StoryContainer from "../components/story/StoryContainer"
 import { useState } from 'react'
 
 const Home = () => {
-  const [isPromptOpen, setIsPromptOpen] = useState<boolean>(true)
+  const [isPromptOpen, setIsPromptOpen] = useState<boolean>(false)
   return (
     <div className="min-h-screen pb-12 relative md:flex md:justify-center">
       <StoryContainer />
