@@ -1,11 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../redux-hooks-type"
-import { useNavigate } from "react-router-dom"
 import { ErrorMessage, Field, Formik, Form } from "formik"
+import loadingIcon from '../assets/loading-icon-white.svg' 
+import { useNavigate } from "react-router-dom"
 import { login } from "../redux/actions/auth"
-import { ILoginForm } from "../Types"
-import loadingIcon from '../assets/loading-icon-white.svg'
-import { object, string } from 'yup'
 import Topbar from "../components/Topbar"
+import { ILoginForm } from "../Types"
+import { object, string } from 'yup'
+import {toast} from 'react-toastify'
 
 const validationSchema = object({
   email: string().email('Invalid email').required('Email is required.'),
@@ -23,11 +24,11 @@ const Login = () => {
   const handleSubmit = async (values: ILoginForm) => {
     const response = await dispatch(login(values))
     if (login.fulfilled.match(response)) {
-      alert('Logged successfully')
+      toast.success('Login successfully.')
       navigate('/')
     }
     if (login.rejected.match(response)) {
-      alert(response.payload?.message)
+      toast.info(response.payload?.message)
     }
   }
 
@@ -41,12 +42,12 @@ const Login = () => {
             <div className='flex flex-col gap-1'>
               <label className='text-lg font-semibold text-slate-900' htmlFor="email">Email</label>
               <Field className="p-2 rounded border-[1px] border-slate-900 bg-stone-50 bg-opacity-30 focus:border-none focus:outline focus:outline-stone-50" name="email" />
-              <ErrorMessage className='text-red-500' name='email' component={'div'} />
+              <ErrorMessage className='text-stone-50' name='email' component={'div'} />
             </div>
             <div className='flex flex-col gap-1'>
               <label className='text-lg font-semibold text-slate-900' htmlFor="password">password</label>
               <Field className="p-2 rounded border-[1px] border-slate-900 bg-stone-50 bg-opacity-30 focus:border-none focus:outline focus:outline-stone-50" type="password" name="password" />
-              <ErrorMessage className='text-red-500' name='password' component={'div'} />
+              <ErrorMessage className='text-stone-50' name='password' component={'div'} />
             </div>
             <div className='flex justify-between' >
               <p className="text-slate-900 text-sm">Don't have an account? <span onClick={() => navigate('/auth/signup')} className="text-stone-50 cursor-pointer">Signup</span></p>

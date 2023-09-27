@@ -1,12 +1,16 @@
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../redux-hooks-type'
+import { logout } from '../redux/slice/authSlice'
 
 interface IProps {
     isMenuOpen: boolean
     setIsMenuOpen: (arg0: (arg0: boolean) => boolean) => void
 }
 const Navbar = ({ isMenuOpen, setIsMenuOpen }: IProps) => {
+    const user=useAppSelector(state=>state.auth.user)
+    const dispatch=useAppDispatch()
     const navigate=useNavigate()
     return (
 
@@ -14,7 +18,8 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }: IProps) => {
             <div className='sm:hidden' role='button' onClick={() => setIsMenuOpen(p => !p)}>
                 {isMenuOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
             </div>
-            <h1 onClick={()=>navigate('/')} className='self-center mx-auto cursor-default'>Story Craft</h1>
+            <h1 onClick={()=>navigate('/')} className=' mx-auto cursor-default'>Story Craft</h1>
+            {user && <button onClick={()=>dispatch(logout())} className='bg-[#f12711] bg-opacity-50 text-sm  py-1 px-2 rounded' >Logout</button>}
         </div>
 
     )

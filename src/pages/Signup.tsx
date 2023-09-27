@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import loadingIcon from '../assets/loading-icon-white.svg'
 import { signup } from '../redux/actions/auth'
 import { useNavigate } from 'react-router-dom'
+import Topbar from '../components/Topbar'
 import { ISignupForm } from '../Types'
 import { string, object } from 'yup'
-import Topbar from '../components/Topbar'
+import { toast } from 'react-toastify'
 
 const validationSchema = object({
     name: string().min(3, 'Minimum 3 character is required.').required('Name is required.'),
@@ -26,17 +27,17 @@ const Signup = () => {
     const handleSubmit = async (values: ISignupForm) => {
         const response = await dispatch(signup(values))
         if (signup.fulfilled.match(response)) {
-            alert('Signup successfully')
+            toast.success('Signup successfully.')
             navigate('/')
         }
         if (signup.rejected.match(response)) {
-            alert(response.payload?.message)
+            toast.info(response.payload?.message)
         }
     }
 
     return (
         <>
-        <Topbar name='Signup' />
+            <Topbar name='Signup' />
             <div className='h-full p-4 flex justify-center items-center'>
                 <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}  >
                     <Form className='w-full max-w-xl bg-stone-50 bg-opacity-30 backdrop-blur-md p-3 rounded space-y-3'>

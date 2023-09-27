@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ILoginForm, ISignupForm } from "../Types";
 
-export const baseURL = "http://localhost:5000"
+export const baseURL = "http://192.168.43.224:5000"
 
 const api=axios.create({
     baseURL

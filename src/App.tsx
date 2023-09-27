@@ -1,12 +1,15 @@
-import Navbar from "./components/Navbar"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from "./pages/Home"
 import Sidebar from "./components/sidebar/Sidebar"
-import { useState } from "react";
-import Leaderboard from "./pages/Leaderboard";
-import SavedStory from "./pages/SavedStory";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer} from "react-toastify"
+import Leaderboard from "./pages/Leaderboard"
+import SavedStory from "./pages/SavedStory"
+import Navbar from "./components/Navbar"
+import Signup from "./pages/Signup"
+import Login from "./pages/Login"
+import { useState } from "react"
+import Home from "./pages/Home"
+
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
@@ -26,6 +29,7 @@ function App() {
           </div>
         </div>
       </Router>
+      <ToastContainer autoClose={3500} draggable closeButton position="top-center" theme="colored" newestOnTop={false} hideProgressBar={false} />
     </div >
   )
 }
