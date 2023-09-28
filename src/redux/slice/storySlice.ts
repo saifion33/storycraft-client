@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IStory } from '../../Types'
 import { generateStory, getAllStories } from '../actions/story'
 
@@ -20,7 +20,20 @@ const initialState: IState = {
 const storySlice = createSlice({
     name: 'story',
     initialState,
-    reducers: {},
+    reducers: {
+        upvote: (state, action: PayloadAction<{ storyId: string, userId: string }>) => {
+            if (state.stories) {
+                const storyId = action.payload.storyId
+                const userId = action.payload.userId
+                const story = state.stories.find(s => s._id == storyId)
+                if (story?.upVotes.includes(userId)) {
+                    story.upVotes = story.upVotes.filter(id => id !== userId)
+                } else {
+                    story?.upVotes.push(userId);
+                }
+            }
+        }
+    },
     extraReducers: (builder => {
         // ********************************* GENERATE STORY ******************************************
         builder.addCase(generateStory.pending, (state) => {
@@ -46,7 +59,7 @@ const storySlice = createSlice({
         })
         builder.addCase(getAllStories.fulfilled, (state, action) => {
             state.loading = false;
-            state.stories=action.payload.stories;
+            state.stories = action.payload.stories;
         })
         builder.addCase(getAllStories.rejected, (state, action) => {
             state.loading = false;
@@ -55,4 +68,5 @@ const storySlice = createSlice({
     })
 })
 
+export const {upvote}=storySlice.actions
 export default storySlice.reducer

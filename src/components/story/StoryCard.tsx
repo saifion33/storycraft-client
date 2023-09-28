@@ -8,7 +8,9 @@ import { useAppDispatch, useAppSelector } from "../../redux-hooks-type"
 import { checkNetworkAndSession } from "../../utils/helpers"
 import { saveStory } from "../../redux/actions/story"
 import { updateSaveStory } from "../../redux/slice/authSlice"
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
+import { upvote } from "../../redux/slice/storySlice"
+import { upvoteStoryApi } from "../../Api"
 
 interface IProps {
     story: IStory,
@@ -16,25 +18,38 @@ interface IProps {
 }
 
 const StoryCard = ({ story, savedStories }: IProps) => {
-    const user=useAppSelector(state=>state.auth.user);
-    const userId=user?._id
-    const isSaved =savedStories && savedStories.includes(story._id);
-    const isUpvoted =userId && story.upVotes.includes(userId);
+    const user = useAppSelector(state => state.auth.user);
+    const userId = user?._id
+    const isSaved = savedStories && savedStories.includes(story._id);
+    const isUpvoted = userId && story.upVotes.includes(userId);
     const isAuthor = story.author._id === userId;
     const [isPromptOpen, setIsPromptOpen] = useState(false)
-    const dispatch=useAppDispatch()
+    const dispatch = useAppDispatch()
 
-    const saveStoryFunction=async(storyId:string)=>{
-        dispatch(updateSaveStory({storyId}))
-        const response=await dispatch(saveStory({storyId}))
+    const saveStoryFunction = async (storyId: string) => {
+        dispatch(updateSaveStory({ storyId }))
+        const response = await dispatch(saveStory({ storyId }))
 
         if (saveStory.rejected.match(response)) {
-            dispatch(updateSaveStory({storyId}))
+            dispatch(updateSaveStory({ storyId }))
             toast.info(response.payload?.message)
         }
     }
-    const handleSaveStory=()=>{
-        checkNetworkAndSession('both',()=>saveStoryFunction(story._id))
+    const upvoteFunction = async (storyId: string, userId: string | null) => {
+        if (userId) {
+            dispatch(upvote({ storyId, userId }))
+            upvoteStoryApi({ storyId })
+                .catch((err) => {
+                    toast.info(err.response.data.message)
+                    dispatch(upvote({ storyId, userId }))
+                })
+        }
+    }
+    const handleSaveStory = () => {
+        checkNetworkAndSession('both', () => saveStoryFunction(story._id))
+    }
+    const handleUpvote = () => {
+        checkNetworkAndSession('both', () => upvoteFunction(story._id, user?._id || null))
     }
     return (
         <div className="bg-stone-50 bg-opacity-20 backdrop-blur-md shadow-sm shadow-stone-50 md:min-w-[280px] md:w-[45%] lg:max-w-xs  p-2 rounded w-full  flex flex-col gap-2">
@@ -53,7 +68,7 @@ const StoryCard = ({ story, savedStories }: IProps) => {
                 </div>
             </div>
             <div className="bg-[#f12711] text-slate-900 p-1  rounded bg-opacity-30  text-xl flex gap-3 items-center">
-                <div className=" flex items-center">{isUpvoted ? <BiSolidUpvote className="cursor-pointer text-stone-50" /> : <BiUpvote className="cursor-pointer" />} <p className="text-lg">{story.upVotes.length}</p></div>
+                <div onClick={handleUpvote} className=" flex items-center">{isUpvoted ? <BiSolidUpvote className="cursor-pointer text-stone-50" /> : <BiUpvote className="cursor-pointer" />} <p className="text-lg">{story.upVotes.length}</p></div>
                 <div onClick={handleSaveStory} className={`flex items-center cursor-pointer ${isSaved ? 'text-stone-50' : ''}`}>{isSaved ? <BiSolidBookmark /> : <BiBookmark />}<span className="text-base">{isSaved ? 'Saved' : 'Save'}</span></div>
                 <div className="flex items-center cursor-pointer"><PiShare /> <span className="text-base">Share</span></div>
                 {isAuthor && <div className="flex items-center cursor-pointer ml-auto"><MdDeleteOutline /> <span className="text-base">Delete</span></div>}

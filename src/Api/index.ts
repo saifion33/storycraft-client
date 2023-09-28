@@ -25,7 +25,8 @@ api.interceptors.request.use(value => {
 export const signupApi = (authData: ISignupForm) => api.post('/auth/signup', authData)
 export const loginApi = (authData: ILoginForm) => api.post('/auth/login', authData)
 
-export const getAllStoriesApi = () => api.get('/story/all')
 export const generateStoryApi = (data: IGenStory) => api.post('/story/generate', data)
 export const savedStoryApi = (data: ISaveStory) => api.patch('/story/save', data)
+export const upvoteStoryApi=(data:ISaveStory)=>api.patch('/story/upvote',data)
 export const getSavedStoriesApi = () => api.get('/story/getSaved')
+export const getAllStoriesApi = () => api.get('/story/all')
