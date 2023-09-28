@@ -23,4 +23,5 @@ api.interceptors.request.use(value => {
 export const signupApi = (authData: ISignupForm) => api.post('/auth/signup', authData)
 export const loginApi = (authData: ILoginForm) => api.post('/auth/login', authData)
 
+export const getAllStoriesApi=()=>api.get('/story/all')
 export const generateStoryApi = (data: IGenStory) => api.post('/story/generate', data)

@@ -18,13 +18,12 @@ const StoryCard = ({ story, savedStories }: IProps) => {
     const [isPromptOpen, setIsPromptOpen] = useState(false)
     return (
         <div className="bg-stone-50 bg-opacity-20 backdrop-blur-md shadow-sm shadow-stone-50 md:min-w-[280px] md:w-[45%] lg:max-w-xs  p-2 rounded w-full  flex flex-col gap-2">
-            <div className="h-52">
-                <h2 className="font-medium text-slate-950 text-lg">{story.title}</h2>
-                <p className="text-slate-900 tracking-[0.02em] min-h-[144px] overflow-y-auto ">{story.story}</p>
-
+            <div className="">
+                <h2 className="font-semibold text-slate-900 text-lg">{story.title}</h2>
+                <p className="text-slate-900 tracking-[0.02em]">{story.story}</p>
             </div>
             <div className="flex items-center justify-between mt-auto">
-                <p>{story.createdAt.toLocaleDateString('en-IN')}</p>
+                <p>{new Date(story.createdAt).toLocaleDateString('en-IN')}</p>
                 <p className="text-stone-200">{story.author.name}</p>
             </div>
             <div className="">
