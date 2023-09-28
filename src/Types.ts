@@ -15,9 +15,14 @@ export interface IGenStory{
     prompt:string,
 }
 
+export interface ISaveStory{
+    storyId:string
+}
+
 export interface IUser{
     _id:string,
-    name:string
+    name:string,
+    savedStories:string[]
 }
 
 export interface ILoginForm{

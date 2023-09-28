@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IGenStory, IServerResponse, IStory } from '../../Types'
-import { generateStoryApi, getAllStoriesApi } from '../../Api'
+import { IGenStory, ISaveStory, IServerResponse, IStory } from '../../Types'
+import { generateStoryApi, getAllStoriesApi, savedStoryApi } from '../../Api'
 
 interface IResponse extends IServerResponse {
     story: IStory
@@ -25,6 +25,17 @@ export const getAllStories = createAsyncThunk<IAllResponse, void, { rejectValue:
 export const generateStory = createAsyncThunk<IResponse, IGenStory, { rejectValue: IServerResponse }>('/story/generate', async (payload, thunkApi) => {
     try {
         const response = await generateStoryApi(payload)
+        return response.data
+    } catch (error) {
+        const errorMessage = error as { response: { data: IServerResponse } }
+        return thunkApi.rejectWithValue(errorMessage.response.data)
+    }
+})
+
+//************************************************** SAVE STORY ****************************************************************
+export const saveStory = createAsyncThunk<IServerResponse, ISaveStory, { rejectValue: IServerResponse }>('/story/save', async (payload, thunkApi) => {
+    try {
+        const response = await savedStoryApi(payload)
         return response.data
     } catch (error) {
         const errorMessage = error as { response: { data: IServerResponse } }

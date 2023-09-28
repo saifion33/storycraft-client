@@ -25,7 +25,6 @@ const Login = () => {
   const loginFunction=async (values: ILoginForm) => {
     const response = await dispatch(login(values))
     if (login.fulfilled.match(response)) {
-      toast.success('Login successfully.')
       navigate('/')
     }
     if (login.rejected.match(response)) {

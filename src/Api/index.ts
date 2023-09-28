@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IGenStory, ILoginForm, ISignupForm } from "../Types";
+import { IGenStory, ILoginForm, ISaveStory, ISignupForm } from "../Types";
 
 export const baseURL = "http://192.168.43.224:5000"
 
@@ -25,3 +25,4 @@ export const loginApi = (authData: ILoginForm) => api.post('/auth/login', authDa
 
 export const getAllStoriesApi=()=>api.get('/story/all')
 export const generateStoryApi = (data: IGenStory) => api.post('/story/generate', data)
+export const savedStoryApi = (data: ISaveStory)=>api.patch('/story/save', data)

@@ -17,7 +17,7 @@ const Sidebar = ({ isMenuOpen }: IProps) => {
                     {!user && <p onClick={() => navigate('/auth/login')} className='cursor-pointer'>Login</p>}
                 </div>
                 <ul className='mt-5 p-2 space-y-3'>
-                    <li className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidBookmark className="text-lg" /> Saved Story</li>
+                    <li onClick={()=>navigate('/saved')} className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidBookmark className="text-lg" /> Saved Story</li>
                     <li className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidTrophy className="text-lg" /> Leader Board</li>
                 </ul>
             </div>
