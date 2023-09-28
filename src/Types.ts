@@ -3,12 +3,16 @@ export interface IStory{
     title:string
     story:string
     createdAt:Date
-    upVote:string[]
+    upVotes:string[]
     prompt:string
     author:{
         name:string
         _id:string
     }
+}
+
+export interface IGenStory{
+    prompt:string,
 }
 
 export interface IUser{

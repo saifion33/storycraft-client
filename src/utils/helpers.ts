@@ -13,8 +13,8 @@ export const stories: IStory[] = [
             _id: "skldfjie8r4",
             name: "Martin"
         },
-        prompt: "Where everyone can fly",
-        upVote: ['skldfjie8r4'],
+        prompt: "Where everyone can fly.",
+        upVotes: ['skldfjie8r4'],
         createdAt: new Date(),
     },
     {
@@ -26,7 +26,7 @@ export const stories: IStory[] = [
             name: "saifi"
         },
         prompt: "create a story about a digital world.",
-        upVote: [],
+        upVotes: [],
         createdAt: new Date(),
     },
     {
@@ -38,7 +38,7 @@ export const stories: IStory[] = [
             name: "John Smith"
         },
         prompt: "a story about jungle diplomacy",
-        upVote: [],
+        upVotes: [],
         createdAt: new Date(),
     },
 

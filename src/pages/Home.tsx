@@ -8,11 +8,10 @@ const Home = () => {
   return (
     <div className="min-h-screen pb-12 relative md:flex md:justify-center">
       <StoryContainer />
-      {isPromptOpen && <div className="fixed bottom-0 md:bottom-4 w-full max-w-[600px] ">
-        <PromptInput closePrompt={()=>setIsPromptOpen(false)} />
+      <div className={`fixed  bottom-0 md:bottom-4 w-full max-w-[600px] sm:block ${isPromptOpen?'block':'hidden'}`}>
+        <PromptInput closePrompt={() => setIsPromptOpen(false)} />
       </div>
-      }
-      {!isPromptOpen && <AiFillPlusCircle role="button" onClick={()=>setIsPromptOpen(true)} className="text-5xl z-50 bg-stone-50 md:hidden rounded-full fixed bottom-4 right-4" />}
+      {!isPromptOpen && <AiFillPlusCircle role="button" onClick={() => setIsPromptOpen(true)} className="text-5xl z-50 bg-stone-50 md:hidden rounded-full fixed bottom-4 right-4" />}
     </div>
   )
 }

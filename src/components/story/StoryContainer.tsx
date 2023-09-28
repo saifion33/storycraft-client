@@ -4,7 +4,6 @@ import StoryCard from "./StoryCard"
 
 const StoryContainer = () => {
     const storiesList = stories
-    
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isLoading, setIsLoading] = useState(false)
     const savedStories=['sldfj','sdfjlsdfjsoid','dk397nf9r8w89ruwo9']
