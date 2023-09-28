@@ -14,7 +14,9 @@ api.interceptors.request.use(value => {
 
     if (value.method && token) {
         if (methods.includes(value.method) && !(value.url === '/auth/signup' || value.url === '/auth/login')) {
-            value.headers.Authorization='Bearer ' + token
+            value.headers.Authorization = 'Bearer ' + token
+        } else if (value.method === 'get' && value.url === '/story/getSaved') {
+            value.headers.Authorization = 'Bearer ' + token
         }
     }
     return value
@@ -23,6 +25,7 @@ api.interceptors.request.use(value => {
 export const signupApi = (authData: ISignupForm) => api.post('/auth/signup', authData)
 export const loginApi = (authData: ILoginForm) => api.post('/auth/login', authData)
 
-export const getAllStoriesApi=()=>api.get('/story/all')
+export const getAllStoriesApi = () => api.get('/story/all')
 export const generateStoryApi = (data: IGenStory) => api.post('/story/generate', data)
-export const savedStoryApi = (data: ISaveStory)=>api.patch('/story/save', data)
+export const savedStoryApi = (data: ISaveStory) => api.patch('/story/save', data)
+export const getSavedStoriesApi = () => api.get('/story/getSaved')

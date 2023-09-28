@@ -3,6 +3,7 @@ import { IStory } from "../../Types"
 import Loading from "../Loading"
 import StoryCard from "./StoryCard"
 import { useAppSelector } from "../../redux-hooks-type"
+import { useNavigate } from "react-router-dom"
 
 interface IProps{
     stories:IStory[]|null
@@ -10,8 +11,9 @@ interface IProps{
 }
 const StoryContainer = ({stories,loading}:IProps) => {
     const user=useAppSelector(state=>state.auth.user)
+    const navigate=useNavigate()
     return (
-        <div className="p-4">
+        <div className="p-4 h-full">
             <div className="flex justify-center flex-wrap gap-4 ">
                 {
                   (stories && !loading ) && stories.map(story => <StoryCard savedStories={user?.savedStories || null} story={story} key={story._id} />)
@@ -21,11 +23,12 @@ const StoryContainer = ({stories,loading}:IProps) => {
                 loading && <Loading/>
             }
             {
-                (!loading && !stories) && <div className="h-full flex flex-col justify-center items-center text-3xl text-stone-50 font-semibold">
-                    <MdHistoryEdu className="text-6xl text-stone-50"/>
+                (!loading && (!stories || stories.length<=0)) && <div className="h-full flex flex-col justify-center items-center text-3xl text-stone-50 font-semibold">
+                    <MdHistoryEdu onClick={()=>navigate('/')} className="text-6xl text-stone-50 hover:text-slate-900 cursor-pointer"/>
                     <p>No Stories</p>
                 </div>
             }
+            
         </div>
     )
 }
