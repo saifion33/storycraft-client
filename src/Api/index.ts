@@ -26,7 +26,8 @@ export const signupApi = (authData: ISignupForm) => api.post('/auth/signup', aut
 export const loginApi = (authData: ILoginForm) => api.post('/auth/login', authData)
 
 export const generateStoryApi = (data: IGenStory) => api.post('/story/generate', data)
-export const savedStoryApi = (data: ISaveStory) => api.patch('/story/save', data)
+export const deleteStoryApi=(storyId:string)=>api.delete(`/story/delete/${storyId}`)
+export const saveStoryApi = (data: ISaveStory) => api.patch('/story/save', data)
 export const upvoteStoryApi=(data:ISaveStory)=>api.patch('/story/upvote',data)
 export const getSavedStoriesApi = () => api.get('/story/getSaved')
 export const getAllStoriesApi = () => api.get('/story/all')

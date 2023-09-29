@@ -6,11 +6,12 @@ import { BsChevronUp, BsChevronDown } from 'react-icons/bs'
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from "../../redux-hooks-type"
 import { checkNetworkAndSession } from "../../utils/helpers"
-import { saveStory } from "../../redux/actions/story"
+import { deleteStory, saveStory } from "../../redux/actions/story"
 import { updateSaveStory } from "../../redux/slice/authSlice"
 import { toast } from 'react-toastify'
 import { upvote } from "../../redux/slice/storySlice"
 import { upvoteStoryApi } from "../../Api"
+import loadingIcon from '../../assets/loading-icon-white.svg'
 
 interface IProps {
     story: IStory,
@@ -21,6 +22,7 @@ const StoryCard = ({ story, savedStories }: IProps) => {
     const user = useAppSelector(state => state.auth.user);
     const userId = user?._id
     const isSaved = savedStories && savedStories.includes(story._id);
+    const deletingStoryId = useAppSelector(state => state.stories.deletingStoryId)
     const isUpvoted = userId && story.upVotes.includes(userId);
     const isAuthor = story.author._id === userId;
     const [isPromptOpen, setIsPromptOpen] = useState(false)
@@ -45,11 +47,20 @@ const StoryCard = ({ story, savedStories }: IProps) => {
                 })
         }
     }
+    const deleteStoryFunction = async (storyId: string) => {
+        const response = await dispatch(deleteStory({ storyId }))
+        if (deleteStory.rejected.match(response)) {
+            toast.info(response.payload?.message)
+        }
+    }
     const handleSaveStory = () => {
         checkNetworkAndSession('both', () => saveStoryFunction(story._id))
     }
     const handleUpvote = () => {
         checkNetworkAndSession('both', () => upvoteFunction(story._id, user?._id || null))
+    }
+    const handleDeleteStory = () => {
+        checkNetworkAndSession('both', () => deleteStoryFunction(story._id));
     }
     return (
         <div className="bg-stone-50 bg-opacity-20 backdrop-blur-md shadow-sm shadow-stone-50 md:min-w-[280px] md:w-[45%] lg:max-w-xs  p-2 rounded w-full  flex flex-col gap-2">
@@ -71,7 +82,8 @@ const StoryCard = ({ story, savedStories }: IProps) => {
                 <div onClick={handleUpvote} className=" flex items-center">{isUpvoted ? <BiSolidUpvote className="cursor-pointer text-stone-50" /> : <BiUpvote className="cursor-pointer" />} <p className="text-lg">{story.upVotes.length}</p></div>
                 <div onClick={handleSaveStory} className={`flex items-center cursor-pointer ${isSaved ? 'text-stone-50' : ''}`}>{isSaved ? <BiSolidBookmark /> : <BiBookmark />}<span className="text-base">{isSaved ? 'Saved' : 'Save'}</span></div>
                 <div className="flex items-center cursor-pointer"><PiShare /> <span className="text-base">Share</span></div>
-                {isAuthor && <div className="flex items-center cursor-pointer ml-auto"><MdDeleteOutline /> <span className="text-base">Delete</span></div>}
+                {(isAuthor && (deletingStoryId !== story._id)) && <div onClick={handleDeleteStory} className="flex items-center cursor-pointer ml-auto"><MdDeleteOutline /> <span className="text-base">Delete</span></div>}
+                {(isAuthor && deletingStoryId === story._id) && <img className="w-6 ml-auto" src={loadingIcon} alt="loading icon" />}
             </div>
         </div>
     )
