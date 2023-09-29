@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import StoryCard from "../components/story/StoryCard"
 import { useAppSelector } from "../redux-hooks-type"
 import Topbar from "../components/Topbar"
-import Loading from "../components/Loading"
+import DummyCard from "../components/DummyCard"
 
 const Story = () => {
     const { storyId } = useParams()
@@ -32,7 +32,7 @@ const Story = () => {
             <Topbar />
             <div className="flex justify-center items-center h-full">
                 {!storyId && <div>Story Id not found.</div>}
-                {loading && <Loading/>}
+                {loading && <DummyCard/>}
                 {(!loading && story) && <StoryCard story={story} savedStories={savedStories || null} />}
             </div>
         </>

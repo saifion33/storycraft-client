@@ -36,7 +36,7 @@ const PromptInput = ({ closePrompt }: IProps) => {
     <div className="bg-stone-50 bg-opacity-20 backdrop-blur-md p-2 rounded">
       <div className='pb-2 flex justify-between items-center'>
         <div>
-          <p className="text-lg text-slate-800 font-medium">Story Prompt</p>
+          <label htmlFor='prompt' className="text-lg text-slate-800 font-medium">Story Prompt</label>
           <span className='text-sm text-stone-50'>Ex: Where everyone can fly.</span>
         </div>
         <AiOutlineClose className="text-xl md:hidden" onClick={closePrompt} />
@@ -48,7 +48,7 @@ const PromptInput = ({ closePrompt }: IProps) => {
               <Field name="prompt" id="prompt" className="w-full rounded-sm p-2 md:px-4 bg-stone-50 bg-opacity-40 focus:outline focus:outline-stone-50" />
               <ErrorMessage name='prompt' component={'p'} className='text-sm text-stone-50' />
             </div>
-            {!isGenrating && <button type='submit'><IoSend className="text-5xl text-[#f12711]  opacity-70 hover:opacity-100 cursor-pointer" /></button>}
+            {!isGenrating && <button aria-label="generate-story" type='submit'><IoSend className="text-5xl text-[#f12711]  opacity-70 hover:opacity-100 cursor-pointer" /></button>}
             {isGenrating && <img className='w-12' src={loadingIcon} alt='loading icon' />}
           </Form>
         </Formik>

@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../redux-hooks-type'
 import { logout } from '../redux/slice/authSlice'
+import { MdHistoryEdu } from 'react-icons/md'
 
 interface IProps {
     isMenuOpen: boolean
@@ -18,7 +19,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }: IProps) => {
             <div className='sm:hidden' role='button' onClick={() => setIsMenuOpen(p => !p)}>
                 {isMenuOpen ? <AiOutlineClose /> : <GiHamburgerMenu />}
             </div>
-            <h1 onClick={()=>navigate('/')} className=' mx-auto cursor-default'>Story Craft</h1>
+            <h1 onClick={()=>navigate('/')} className=' mx-auto cursor-default flex items-center gap-1'><MdHistoryEdu className="text-3xl"/>Story Craft</h1>
             {user && <button onClick={()=>dispatch(logout())} className='bg-[#f12711] bg-opacity-50 text-sm  py-1 px-2 rounded' >Logout</button>}
             {!user && <button onClick={()=>navigate('/auth/login')} className='bg-[#f12711] bg-opacity-50 text-sm  py-1 px-2 rounded' >Login</button>}
         </div>

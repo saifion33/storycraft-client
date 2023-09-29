@@ -18,7 +18,7 @@ const Sidebar = ({ isMenuOpen }: IProps) => {
                 </div>
                 <ul className='mt-5 p-2 space-y-3'>
                     <li onClick={()=>navigate('/saved')} className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidBookmark className="text-lg" /> Saved Story</li>
-                    <li className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidTrophy className="text-lg" /> Leader Board</li>
+                    <li onClick={()=>navigate('/leaderboard')} className='flex gap-1 items-center bg-[#f12711] bg-opacity-40 p-1 font-medium cursor-pointer'><BiSolidTrophy className="text-lg" /> Leader Board</li>
                 </ul>
             </div>
         </div>
