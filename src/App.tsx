@@ -9,6 +9,7 @@ import Signup from "./pages/Signup"
 import Login from "./pages/Login"
 import { useState } from "react"
 import Home from "./pages/Home"
+import Story from './pages/Story'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,6 +26,7 @@ function App() {
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/auth/signup" element={<Signup/>} />
               <Route path="/auth/login" element={<Login/>} />
+              <Route path='/story/:storyId' element={<Story/>}/>
             </Routes>
           </div>
         </div>
