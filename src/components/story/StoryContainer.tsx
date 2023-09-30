@@ -1,9 +1,10 @@
+import {Suspense,lazy} from 'react'
 import { MdHistoryEdu } from "react-icons/md"
 import { IStory } from "../../Types"
-import StoryCard from "./StoryCard"
 import { useAppSelector } from "../../redux-hooks-type"
 import { useNavigate } from "react-router-dom"
 import DummyCard from "../DummyCard"
+const StoryCard=lazy(()=>import('./StoryCard'))
 
 interface IProps {
     stories: IStory[] | null
@@ -26,7 +27,7 @@ const StoryContainer = ({ stories, loading }: IProps) => {
         <div className="p-4 pb-14 min-h-full w-full">
             <div className="flex justify-center flex-wrap gap-4 ">
                 {
-                    (stories && !loading) && stories.map((story, index) => <StoryCard badge={assignBadge(index)} savedStories={user?.savedStories || null} story={story} key={story._id} />)
+                    (stories && !loading) && stories.map((story, index) => <Suspense fallback={<DummyCard/>} ><StoryCard badge={assignBadge(index)} savedStories={user?.savedStories || null} story={story} key={story._id} /></Suspense>)
                 }
                 {
                     loading && [1, 2, 3].map(card => <DummyCard key={card} />)

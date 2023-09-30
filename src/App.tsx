@@ -1,19 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Sidebar from "./components/sidebar/Sidebar"
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.min.css'
 import { ToastContainer} from "react-toastify"
-// import Leaderboard from "./pages/Leaderboard"
-// import SavedStory from "./pages/SavedStory"
+import Loading from './components/Loading'
 import Navbar from "./components/Navbar"
-import Signup from "./pages/Signup"
 import {Suspense,lazy} from 'react'
-import Login from "./pages/Login"
-import Story from './pages/Story'
 import { useState } from "react"
 import Home from "./pages/Home"
-import Loading from './components/Loading'
+
+const Signup =lazy(()=>import('./pages/Signup'))
+const Login =lazy(()=>import('./pages/Login'))
 const SavedStory =lazy(()=>import('./pages/SavedStory'))
 const Leaderboard =lazy(()=>import('./pages/Leaderboard'))
+const Story =lazy(()=>import('./pages/Story'))
+
+
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,9 +29,9 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/saved" element={<Suspense fallback={<Loading/>} ><SavedStory /></Suspense>} />
               <Route path="/leaderboard" element={<Suspense fallback={<Loading/>} ><Leaderboard /></Suspense>} />
-              <Route path="/auth/signup" element={<Signup/>} />
-              <Route path="/auth/login" element={<Login/>} />
-              <Route path='/story/:storyId' element={<Story/>}/>
+              <Route path="/auth/signup" element={<Suspense fallback={<Loading/>}><Signup/></Suspense>} />
+              <Route path="/auth/login" element={<Suspense fallback={<Loading/>}><Login/></Suspense>} />
+              <Route path='/story/:storyId' element={<Suspense fallback={<Loading/>}><Story/></Suspense>}/>
             </Routes>
           </div>
         </div>
