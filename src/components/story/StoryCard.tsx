@@ -1,45 +1,47 @@
-import { BiBookmark, BiSolidBookmark, BiSolidUpvote, BiUpvote } from "react-icons/bi"
-import { PiShare } from 'react-icons/pi'
-import { MdDeleteOutline } from 'react-icons/md'
-import { IStory } from "../../Types"
-import { BsChevronUp, BsChevronDown } from 'react-icons/bs'
-import { useState } from 'react'
+import {  BiSolidBadge } from "react-icons/bi"
 import { useAppDispatch, useAppSelector } from "../../redux-hooks-type"
-import { checkNetworkAndSession } from "../../utils/helpers"
 import { deleteStory, saveStory } from "../../redux/actions/story"
 import { updateSaveStory } from "../../redux/slice/authSlice"
-import { toast } from 'react-toastify'
+import { checkNetworkAndSession } from "../../utils/helpers"
+import { BsChevronUp, BsChevronDown } from 'react-icons/bs'
 import { upvote } from "../../redux/slice/storySlice"
-import { upvoteStoryApi } from "../../Api"
-import loadingIcon from '../../assets/loading-icon-white.svg'
 import { useNavigate } from "react-router-dom"
+import { upvoteStoryApi } from "../../Api"
+import { toast } from 'react-toastify'
 import copy from "copy-to-clipboard"
+import { IStory } from "../../Types"
+import { useState } from 'react'
+import StoryCardFooter from "./StoryCardFooter"
+
 interface IProps {
     story: IStory,
     savedStories: string[] | null,
-
+    badge?: 'first' | 'second' | 'third' | null
 }
 
-const StoryCard = ({ story, savedStories }: IProps) => {
-    const user = useAppSelector(state => state.auth.user);
-    const userId = user?._id
-    const isSaved = savedStories && savedStories.includes(story._id);
+const StoryCard = ({ story, savedStories, badge }: IProps) => {
+
     const deletingStoryId = useAppSelector(state => state.stories.deletingStoryId)
-    const isUpvoted = userId && story.upVotes.includes(userId);
+    const isSaved = savedStories && savedStories.includes(story._id);
+    const user = useAppSelector(state => state.auth.user);
+    const [isPromptOpen, setIsPromptOpen] = useState(false)
+    const userId = user?._id
+    const isUpvoted = userId && story.upVotes.includes(userId) || null;
     const isAuthor = story.author._id === userId;
     const navigate = useNavigate()
-    const [isPromptOpen, setIsPromptOpen] = useState(false)
     const dispatch = useAppDispatch()
 
+    //*********************** save story function ************************************************
     const saveStoryFunction = async (storyId: string) => {
         dispatch(updateSaveStory({ storyId }))
         const response = await dispatch(saveStory({ storyId }))
-
         if (saveStory.rejected.match(response)) {
             dispatch(updateSaveStory({ storyId }))
             toast.info(response.payload?.message)
         }
     }
+
+    // ******************************* upvote story function *******************************
     const upvoteFunction = async (storyId: string, userId: string | null) => {
         if (userId) {
             dispatch(upvote({ storyId, userId }))
@@ -50,6 +52,8 @@ const StoryCard = ({ story, savedStories }: IProps) => {
                 })
         }
     }
+
+    // ********************************* delete Story Function *******************************
     const deleteStoryFunction = async (storyId: string) => {
         const response = await dispatch(deleteStory({ storyId }))
         if (deleteStory.fulfilled.match(response)) {
@@ -61,6 +65,13 @@ const StoryCard = ({ story, savedStories }: IProps) => {
             toast.info(response.payload?.message)
         }
     }
+
+    // ************************************ share story function ********************************
+    const handleShareStory = () => {
+        const isCopy = copy(window.location.origin + `/story/${story._id}`)
+        isCopy && toast.info('Story link copied successfully', { autoClose: 700 })
+    }
+
     const handleSaveStory = () => {
         checkNetworkAndSession('both', () => saveStoryFunction(story._id))
     }
@@ -70,14 +81,22 @@ const StoryCard = ({ story, savedStories }: IProps) => {
     const handleDeleteStory = () => {
         checkNetworkAndSession('both', () => deleteStoryFunction(story._id));
     }
-    const handleShareStory = () => {
-        const isCopy = copy(window.location.origin + `/story/${story._id}`)
-        isCopy && toast.info('Story link copied successfully', { autoClose: 700 })
-    }
+   
+
+    const badgeList = { first: 'text-cyan-400', second: 'text-yellow-500', third: 'text-gray-500' }
+
     return (
         <div className="bg-stone-50 bg-opacity-20 backdrop-blur-md shadow-sm shadow-stone-50 md:min-w-[280px] md:w-[45%] lg:max-w-xs  p-2 rounded w-full  flex flex-col gap-2">
             <div className="">
-                <h2 className="font-semibold text-slate-900 text-lg">{story.title}</h2>
+                <div className="font-semibold text-slate-900 text-lg flex justify-between items-center">
+                    <h2>{story.title}</h2>
+                    {
+                        badge && <div className="relative flex justify-center items-center">
+                            <p className="absolute text-stone-50 text-sm">{badge === 'first' ? 1 : badge === 'second' ? 2 : badge === 'third' ? 3 : ''}</p>
+                            <BiSolidBadge className={`text-2xl ${badgeList[badge]}`} />
+                        </div>
+                    }
+                </div>
                 <p className="text-slate-900 tracking-[0.02em]">{story.story}</p>
             </div>
             <div className="flex items-center justify-between mt-auto">
@@ -90,13 +109,18 @@ const StoryCard = ({ story, savedStories }: IProps) => {
                     {story.prompt}
                 </div>
             </div>
-            <div className="bg-[#f12711] text-slate-900 p-1  rounded bg-opacity-30  text-xl flex gap-3 items-center">
-                <div onClick={handleUpvote} className=" flex items-center">{isUpvoted ? <BiSolidUpvote className="cursor-pointer text-stone-50" /> : <BiUpvote className="cursor-pointer" />} <p className="text-lg">{story.upVotes.length}</p></div>
-                <div onClick={handleSaveStory} className={`flex items-center cursor-pointer ${isSaved ? 'text-stone-50' : ''}`}>{isSaved ? <BiSolidBookmark /> : <BiBookmark />}<span className="text-base">{isSaved ? 'Saved' : 'Save'}</span></div>
-                <div onClick={handleShareStory} className="flex items-center cursor-pointer"><PiShare /> <span className="text-base">Share</span></div>
-                {(isAuthor && (deletingStoryId !== story._id)) && <div onClick={handleDeleteStory} className="flex items-center cursor-pointer ml-auto"><MdDeleteOutline /> <span className="text-base">Delete</span></div>}
-                {(isAuthor && deletingStoryId === story._id) && <img className="w-6 ml-auto" src={loadingIcon} alt="loading icon" />}
-            </div>
+            <StoryCardFooter
+                handleDeleteStory={handleDeleteStory}
+                handleSaveStory={handleSaveStory}
+                handleShareStory={handleShareStory}
+                handleUpvote={handleUpvote}
+                deletingStoryId={deletingStoryId}
+                isAuthor={isAuthor}
+                isSaved={isSaved}
+                isUpvoted={isUpvoted}
+                storyId={story._id}
+                upVoteCount={story.upVotes.length}
+            />
         </div>
     )
 }

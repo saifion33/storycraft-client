@@ -7,9 +7,9 @@ import SavedStory from "./pages/SavedStory"
 import Navbar from "./components/Navbar"
 import Signup from "./pages/Signup"
 import Login from "./pages/Login"
+import Story from './pages/Story'
 import { useState } from "react"
 import Home from "./pages/Home"
-import Story from './pages/Story'
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         <div className="flex">
-          <Sidebar isMenuOpen={isMenuOpen} />
+          <Sidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <div className="h-screen overflow-y-auto pb-12 w-full" >
             <Routes>
               <Route path="/" element={<Home />} />

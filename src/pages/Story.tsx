@@ -30,7 +30,7 @@ const Story = () => {
     return (
         <>
             <Topbar />
-            <div className="flex justify-center items-center h-full">
+            <div className="flex justify-center items-center h-full p-4">
                 {!storyId && <div>Story Id not found.</div>}
                 {loading && <DummyCard/>}
                 {(!loading && story) && <StoryCard story={story} savedStories={savedStories || null} />}

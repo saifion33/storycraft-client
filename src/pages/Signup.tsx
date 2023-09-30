@@ -62,8 +62,8 @@ const Signup = () => {
                         </div>
                         <div className='flex justify-between'>
                             <p className='text-slate-900 text-sm'>Already have an account? <span onClick={() => navigate('/auth/login')} className='text-stone-50 cursor-pointer'>Login</span></p>
-                            {!loading && <button className='  bg-[#f12711] py-1 px-2 rounded text-stone-50 bg-opacity-60 hover:bg-opacity-80' type="submit">Signup</button>}
-                            {loading && <div className=' w-fit bg-[#f12711] py-1 px-2 rounded text-stone-50 bg-opacity-60 hover:bg-opacity-80 flex gap-1'>Loading <img src={loadingIcon} className='w-5' /></div>}
+                            {!loading && <button className='  bg-customOrange py-1 px-2 rounded text-stone-50 bg-opacity-60 hover:bg-opacity-80' type="submit">Signup</button>}
+                            {loading && <div className=' w-fit bg-customOrange py-1 px-2 rounded text-stone-50 bg-opacity-60 hover:bg-opacity-80 flex gap-1'>Loading <img src={loadingIcon} className='w-5' /></div>}
                         </div>
                     </Form>
                 </Formik>

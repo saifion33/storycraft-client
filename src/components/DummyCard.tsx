@@ -14,7 +14,7 @@ const DummyCard = () => {
             <div className="flex justify-between items-center">
                 <p className='w-28 h-7 bg-stone-50 bg-opacity-30 rounded-sm'></p>
             </div>
-            <div className="bg-[#f12711] text-slate-900 p-1 h-9  rounded bg-opacity-30  text-xl flex gap-3 items-center">
+            <div className="bg-customOrange text-slate-900 p-1 h-9  rounded bg-opacity-30  text-xl flex gap-3 items-center">
 
             </div>
         </div>

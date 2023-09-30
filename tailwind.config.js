@@ -8,6 +8,9 @@ export default {
     extend: {
       backgroundImage: {
         'gradient-radial':'radial-gradient(circle, #f12711 0%,#f5af19 100%)'
+      },
+      colors:{
+        customOrange:'#f12711'
       }
     },
   },
