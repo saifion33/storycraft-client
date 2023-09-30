@@ -27,7 +27,7 @@ const StoryContainer = ({ stories, loading }: IProps) => {
         <div className="p-4 pb-14 min-h-full w-full">
             <div className="flex justify-center flex-wrap gap-4 ">
                 {
-                    (stories && !loading) && stories.map((story, index) => <Suspense fallback={<DummyCard/>} ><StoryCard badge={assignBadge(index)} savedStories={user?.savedStories || null} story={story} key={story._id} /></Suspense>)
+                    (stories && !loading) && stories.map((story, index) => <Suspense key={story._id} fallback={<DummyCard/>} ><StoryCard badge={assignBadge(index)} savedStories={user?.savedStories || null} story={story} /></Suspense>)
                 }
                 {
                     loading && [1, 2, 3].map(card => <DummyCard key={card} />)
