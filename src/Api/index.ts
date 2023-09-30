@@ -1,7 +1,7 @@
 import axios from "axios";
 import { IGenStory, ILoginForm, ISaveStory, ISignupForm } from "../Types";
 
-export const baseURL = "http://192.168.43.224:5000"
+export const baseURL = "https://story-craft.onrender.com"
 
 const api = axios.create({
     baseURL
